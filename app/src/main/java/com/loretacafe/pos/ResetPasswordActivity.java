@@ -74,18 +74,39 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     private void performResetPassword(String email) {
+        // Disable button to prevent multiple clicks
+        btnContinue.setEnabled(false);
+        btnContinue.setText("Sending...");
+        
         // TODO: Implement actual OTP sending logic here
         // This is where you would:
         // 1. Make API call to your backend
         // 2. Send OTP to the email
         // 3. Navigate to OTP verification screen
 
-        // For now, show a success message
-        Toast.makeText(this, "OTP sent to " + email, Toast.LENGTH_LONG).show();
+        // Simulate network delay (replace with actual API call)
+        btnContinue.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // For now, show a success message
+                Toast.makeText(ResetPasswordActivity.this, "OTP sent to " + email, Toast.LENGTH_LONG).show();
 
-        // Navigate to OTP verification screen
-        Intent intent = new Intent(ResetPasswordActivity.this, OtpVerificationActivity.class);
-        intent.putExtra("email", email);
-        startActivity(intent);
-    }
+                // Navigate to OTP verification screen
+                Intent intent = new Intent(ResetPasswordActivity.this, OtpVerificationActivity.class);
+                intent.putExtra("email", email);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                
+                // Re-enable button
+                btnContinue.setEnabled(true);
+            btnContinue.setText("Continue");
+        }
+    }, 1500);
+}
+
+@Override
+public void onBackPressed() {
+    super.onBackPressed();
+    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+}
 }

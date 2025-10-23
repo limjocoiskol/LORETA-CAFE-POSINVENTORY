@@ -7,6 +7,7 @@ public class MenuItem {
     private boolean isFavorite;
     private boolean isNew;
     private String size; // For items with sizes like "8oz | 12oz"
+    private String imageResourceName; // Name of the image file without extension
 
     public MenuItem(String name, double price, String category) {
         this.name = name;
@@ -15,6 +16,7 @@ public class MenuItem {
         this.isFavorite = false;
         this.isNew = false;
         this.size = "";
+        this.imageResourceName = "";
     }
 
     public MenuItem(String name, double price, String category, boolean isNew) {
@@ -24,6 +26,27 @@ public class MenuItem {
         this.isFavorite = false;
         this.isNew = isNew;
         this.size = "";
+        this.imageResourceName = "";
+    }
+
+    public MenuItem(String name, double price, String category, boolean isNew, String imageResourceName) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.isFavorite = false;
+        this.isNew = isNew;
+        this.size = "";
+        this.imageResourceName = imageResourceName;
+    }
+
+    public MenuItem(String name, double price, String category, String imageResourceName) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.isFavorite = false;
+        this.isNew = false;
+        this.size = "";
+        this.imageResourceName = imageResourceName;
     }
 
     public MenuItem(String name, String size, String category) {
@@ -33,6 +56,7 @@ public class MenuItem {
         this.price = 0;
         this.isFavorite = false;
         this.isNew = false;
+        this.imageResourceName = "hotcoffee";
     }
 
     // Getters and Setters
@@ -89,5 +113,13 @@ public class MenuItem {
             return size;
         }
         return "₱ " + String.format("%.2f", price);
+    }
+
+    public String getImageResourceName() {
+        return imageResourceName;
+    }
+
+    public void setImageResourceName(String imageResourceName) {
+        this.imageResourceName = imageResourceName;
     }
 }

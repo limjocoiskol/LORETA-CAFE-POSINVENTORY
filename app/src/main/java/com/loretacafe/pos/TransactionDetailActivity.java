@@ -1,5 +1,6 @@
 package com.loretacafe.pos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_detail);
 
         // Get transaction from intent
-        transaction = (Transaction) getIntent().getSerializableExtra("TRANSACTION");
+        transaction = (Transaction) getIntent().getSerializableExtra("transaction");
 
         initializeViews();
         setupListeners();
@@ -64,7 +65,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
         // FAB
         fabAdd.setOnClickListener(v -> {
-            Toast.makeText(this, "Add new transaction", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Create New Order", Toast.LENGTH_SHORT).show();
             // TODO: Navigate to add transaction screen
         });
     }
@@ -77,6 +78,9 @@ public class TransactionDetailActivity extends AppCompatActivity {
 
             if (itemId == R.id.nav_home) {
                 // Navigate to Dashboard
+                Intent intent = new Intent(this, DashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 finish();
                 return true;
             } else if (itemId == R.id.nav_history) {
@@ -84,10 +88,11 @@ public class TransactionDetailActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
             } else if (itemId == R.id.nav_menu) {
-                Toast.makeText(this, "Menu", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MenuActivity.class);
+                startActivity(intent);
                 return true;
             } else if (itemId == R.id.nav_reports) {
-                Toast.makeText(this, "Reports", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Reports - Coming Soon", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
@@ -105,20 +110,40 @@ public class TransactionDetailActivity extends AppCompatActivity {
         // Set order info
         tvOrderNumber.setText("Order No.: #" + transaction.getOrderId());
         tvCustomerName.setText(transaction.getCustomerName());
-        tvDateTime.setText(transaction.getDate() + ", " + transaction.getTime());
+        tvDateTime.setText("Month " + transaction.getDate() + ", 0000 | " + transaction.getTime());
         tvOrderNumberBottom.setText("Order No.: #" + transaction.getOrderId());
         tvPaymentMethod.setText("Mode of Payment: " + transaction.getPaymentMethod());
 
         // Add items dynamically
         itemsContainer.removeAllViews();
-        for (Transaction.OrderItem item : transaction.getItems()) {
-            View itemView = createItemView(item);
-            itemsContainer.addView(itemView);
+        
+        if (transaction.getItems() == null || transaction.getItems().isEmpty()) {
+            // Add sample items for demo
+            addSampleItems();
+        } else {
+            for (Transaction.OrderItem item : transaction.getItems()) {
+                View itemView = createItemView(item);
+                itemsContainer.addView(itemView);
+            }
         }
 
         // Calculate and display total
-        double total = transaction.calculateTotal();
+        double total = transaction.getTotalAmount();
+        if (total == 0 && transaction.getItems() != null && !transaction.getItems().isEmpty()) {
+            total = transaction.calculateTotal();
+        }
         tvTotal.setText(String.format("₱ %.2f", total));
+    }
+
+    /**
+     * Add sample items for demonstration
+     */
+    private void addSampleItems() {
+        Transaction.OrderItem item1 = new Transaction.OrderItem("Item Name 1", 2, 92.00);
+        Transaction.OrderItem item2 = new Transaction.OrderItem("Iced Latte", 2, 92.00);
+        
+        itemsContainer.addView(createItemView(item1));
+        itemsContainer.addView(createItemView(item2));
     }
 
     /**
@@ -134,10 +159,16 @@ public class TransactionDetailActivity extends AppCompatActivity {
         TextView tvItemTotal = itemView.findViewById(R.id.tvItemTotal);
 
         tvItemName.setText(item.getItemName());
-        tvItemPrice.setText(item.getFormattedPrice());
-        tvItemQuantity.setText(item.getQuantityDisplay());
-        tvItemTotal.setText(item.getFormattedTotal());
+        tvItemPrice.setText(String.format("₱ %.2f", item.getPricePerUnit()));
+        tvItemQuantity.setText(String.format("%d x ₱ %.2f", item.getQuantity(), item.getPricePerUnit()));
+        tvItemTotal.setText(String.format("₱ %.2f", item.getTotal()));
 
         return itemView;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

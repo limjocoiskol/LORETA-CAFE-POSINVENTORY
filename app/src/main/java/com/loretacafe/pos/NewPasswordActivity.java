@@ -91,15 +91,32 @@ public class NewPasswordActivity extends AppCompatActivity {
     }
 
     private void performPasswordReset(String newPassword) {
+        // Disable button to prevent multiple clicks
+        btnConfirm.setEnabled(false);
+        btnConfirm.setText("Resetting...");
+        
         // TODO: Implement actual password reset logic here
         // This is where you would:
         // 1. Make API call to reset password
         // 2. Send email and new password to backend
         // 3. Handle success/error response
 
-        // For now, navigate to success screen
-        Intent intent = new Intent(NewPasswordActivity.this, PasswordSuccessActivity.class);
-        startActivity(intent);
-        finish();
+        // Simulate network delay (replace with actual API call)
+        btnConfirm.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // For now, navigate to success screen
+                Intent intent = new Intent(NewPasswordActivity.this, PasswordSuccessActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+            }
+        }, 1500);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

@@ -24,8 +24,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Logo -->
-
-        <!-- Title -->
         <ImageView
             android:id="@+id/ivLogo"
             android:layout_width="117dp"
@@ -36,7 +34,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnBack" /> />
+            app:layout_constraintTop_toBottomOf="@id/btnBack" />
+
+        <!-- Title -->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
@@ -95,13 +95,14 @@
                 android:layout_height="60dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/otp_box_background"
+                android:background="@drawable/otp_box_selector"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
                 android:textColor="#1A1A1A"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/etOtp2"
@@ -109,13 +110,14 @@
                 android:layout_height="60dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/otp_box_background"
+                android:background="@drawable/otp_box_selector"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
                 android:textColor="#1A1A1A"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/etOtp3"
@@ -123,13 +125,14 @@
                 android:layout_height="60dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/otp_box_background"
+                android:background="@drawable/otp_box_selector"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
                 android:textColor="#1A1A1A"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/etOtp4"
@@ -137,13 +140,14 @@
                 android:layout_height="60dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/otp_box_background"
+                android:background="@drawable/otp_box_selector"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
                 android:textColor="#1A1A1A"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/etOtp5"
@@ -151,26 +155,28 @@
                 android:layout_height="60dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/otp_box_background"
+                android:background="@drawable/otp_box_selector"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
                 android:textColor="#1A1A1A"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/etOtp6"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:background="@drawable/otp_box_background"
+                android:background="@drawable/otp_box_selector"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
                 android:textColor="#1A1A1A"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:importantForAutofill="no" />
 
         </LinearLayout>
 
@@ -210,7 +216,6 @@
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_marginTop="32dp"
-            android:layout_centerInParent="true"
             android:background="@drawable/button_background"
             android:text="Continue"
             android:textAllCaps="false"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -53,6 +54,14 @@ public class PasswordSuccessActivity extends AppCompatActivity {
         Intent intent = new Intent(PasswordSuccessActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Prevent going back from success screen
+        // User should click Continue to go to login
+        Toast.makeText(this, "Please click Continue to proceed to login", Toast.LENGTH_SHORT).show();
     }
 }

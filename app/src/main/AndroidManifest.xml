@@ -78,6 +78,27 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".RecentTransactionsActivity" />
 
+        <!-- Categories Activity -->
+        <activity
+            android:name=".CategoriesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".DashboardActivity" />
+
+        <!-- Assign Items Activity -->
+        <activity
+            android:name=".AssignItemsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".CategoriesActivity" />
+
+        <!-- Edit Item Activity -->
+        <activity
+            android:name=".EditItemActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".DashboardActivity" />
+
     </application>
 
 </manifest>

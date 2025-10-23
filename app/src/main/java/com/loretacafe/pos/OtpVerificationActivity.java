@@ -2,6 +2,7 @@ package com.loretacafe.pos;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -20,6 +21,8 @@ public class OtpVerificationActivity extends AppCompatActivity {
     private TextView tvResendCode;
     private androidx.appcompat.widget.AppCompatButton btnContinue;
     private String userEmail;
+    private CountDownTimer resendTimer;
+    private boolean canResend = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,9 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
         // Setup click listeners
         setupClickListeners();
+        
+        // Start resend timer
+        startResendTimer();
     }
 
     private void initializeViews() {
@@ -151,10 +157,16 @@ public class OtpVerificationActivity extends AppCompatActivity {
         Intent intent = new Intent(OtpVerificationActivity.this, NewPasswordActivity.class);
         intent.putExtra("email", userEmail);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 
     private void handleResendCode() {
+        if (!canResend) {
+            Toast.makeText(this, "Please wait before requesting a new code", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
         // TODO: Implement resend OTP logic
         // Clear all boxes
         etOtp1.setText("");
@@ -166,5 +178,48 @@ public class OtpVerificationActivity extends AppCompatActivity {
         etOtp1.requestFocus();
 
         Toast.makeText(this, "OTP resent to " + userEmail, Toast.LENGTH_SHORT).show();
+        
+        // Restart timer
+        canResend = false;
+        startResendTimer();
+    }
+    
+    private void startResendTimer() {
+        if (resendTimer != null) {
+            resendTimer.cancel();
+        }
+        
+        // 30 second timer
+        resendTimer = new CountDownTimer(30000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long secondsRemaining = millisUntilFinished / 1000;
+                tvResendCode.setText("Resend it (" + secondsRemaining + "s)");
+                tvResendCode.setEnabled(false);
+                tvResendCode.setAlpha(0.5f);
+            }
+
+            @Override
+            public void onFinish() {
+                tvResendCode.setText("Resend it.");
+                tvResendCode.setEnabled(true);
+                tvResendCode.setAlpha(1.0f);
+                canResend = true;
+            }
+        }.start();
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (resendTimer != null) {
+            resendTimer.cancel();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

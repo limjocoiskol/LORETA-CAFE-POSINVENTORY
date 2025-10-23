@@ -3,6 +3,7 @@ package com.loretacafe.pos;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,10 +44,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     }
 
     class FavoriteViewHolder extends RecyclerView.ViewHolder {
+        ImageView ivFavoriteItem;
         TextView tvFavoriteItemName, tvFavoriteItemPrice;
 
         public FavoriteViewHolder(@NonNull View itemView) {
             super(itemView);
+            ivFavoriteItem = itemView.findViewById(R.id.ivFavoriteItem);
             tvFavoriteItemName = itemView.findViewById(R.id.tvFavoriteItemName);
             tvFavoriteItemPrice = itemView.findViewById(R.id.tvFavoriteItemPrice);
         }
@@ -54,6 +57,21 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         public void bind(MenuItem item) {
             tvFavoriteItemName.setText(item.getName());
             tvFavoriteItemPrice.setText(item.getFormattedPrice());
+
+            // Load actual image
+            String imageName = item.getImageResourceName();
+            if (imageName != null && !imageName.isEmpty()) {
+                int resourceId = itemView.getContext().getResources().getIdentifier(
+                    imageName, "drawable", itemView.getContext().getPackageName()
+                );
+                if (resourceId != 0) {
+                    ivFavoriteItem.setImageResource(resourceId);
+                } else {
+                    ivFavoriteItem.setImageResource(R.drawable.ic_image_placeholder);
+                }
+            } else {
+                ivFavoriteItem.setImageResource(R.drawable.ic_image_placeholder);
+            }
         }
     }
 }

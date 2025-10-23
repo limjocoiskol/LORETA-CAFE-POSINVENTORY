@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,15 +18,24 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     private List<MenuItem> menuItems;
     private List<MenuItem> menuItemsFull; // For search functionality
     private OnFavoriteClickListener favoriteClickListener;
+    private OnAddToCartClickListener addToCartClickListener;
 
     public interface OnFavoriteClickListener {
         void onFavoriteClick(MenuItem item, int position);
+    }
+
+    public interface OnAddToCartClickListener {
+        void onAddToCartClick(MenuItem item, int position);
     }
 
     public MenuAdapter(List<MenuItem> menuItems, OnFavoriteClickListener listener) {
         this.menuItems = menuItems;
         this.menuItemsFull = new ArrayList<>(menuItems);
         this.favoriteClickListener = listener;
+    }
+
+    public void setOnAddToCartClickListener(OnAddToCartClickListener listener) {
+        this.addToCartClickListener = listener;
     }
 
     @NonNull
@@ -86,6 +96,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     class MenuViewHolder extends RecyclerView.ViewHolder {
         TextView tvItemName, tvItemPrice, tvNewBadge;
         ImageButton btnFavorite;
+        ImageView ivMenuItem;
+        com.google.android.material.floatingactionbutton.FloatingActionButton btnAddToCart;
 
         public MenuViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,11 +105,28 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             tvItemPrice = itemView.findViewById(R.id.tvItemPrice);
             tvNewBadge = itemView.findViewById(R.id.tvNewBadge);
             btnFavorite = itemView.findViewById(R.id.btnFavorite);
+            btnAddToCart = itemView.findViewById(R.id.btnAddToCart);
+            ivMenuItem = itemView.findViewById(R.id.ivMenuItem);
         }
 
         public void bind(MenuItem item) {
             tvItemName.setText(item.getName());
             tvItemPrice.setText(item.getFormattedPrice());
+
+            // Load actual image
+            String imageName = item.getImageResourceName();
+            if (imageName != null && !imageName.isEmpty()) {
+                int resourceId = itemView.getContext().getResources().getIdentifier(
+                    imageName, "drawable", itemView.getContext().getPackageName()
+                );
+                if (resourceId != 0) {
+                    ivMenuItem.setImageResource(resourceId);
+                } else {
+                    ivMenuItem.setImageResource(R.drawable.ic_image_placeholder);
+                }
+            } else {
+                ivMenuItem.setImageResource(R.drawable.ic_image_placeholder);
+            }
 
             // Show/hide NEW badge
             if (item.isNew()) {
@@ -117,6 +146,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             btnFavorite.setOnClickListener(v -> {
                 if (favoriteClickListener != null) {
                     favoriteClickListener.onFavoriteClick(item, getAdapterPosition());
+                }
+            });
+
+            // Add to cart button click
+            btnAddToCart.setOnClickListener(v -> {
+                if (addToCartClickListener != null) {
+                    addToCartClickListener.onAddToCartClick(item, getAdapterPosition());
                 }
             });
         }

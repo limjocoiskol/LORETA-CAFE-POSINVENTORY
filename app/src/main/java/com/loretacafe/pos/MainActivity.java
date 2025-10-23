@@ -147,17 +147,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void performLogin(String username, String password) {
-        Toast.makeText(this, "Login successful! Welcome to Loreta's Café", Toast.LENGTH_SHORT).show();
+        // Disable button to prevent multiple clicks
+        btnContinue.setEnabled(false);
+        btnContinue.setText("Logging in...");
+        
+        // Simulate network delay (replace with actual API call)
+        btnContinue.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, "Login successful! Welcome to Loreta's Café", Toast.LENGTH_SHORT).show();
 
-        // Navigate to dashboard
-        Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-        startActivity(intent);
-        finish();
+                // Navigate to dashboard
+                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 1000);
     }
 
     private void handleForgotPassword() {
         // Navigate to Reset Password screen
         Intent intent = new Intent(MainActivity.this, ResetPasswordActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }
