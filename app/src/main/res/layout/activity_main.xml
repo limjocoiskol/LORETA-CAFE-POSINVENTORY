@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tilPassword"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="18dp"
             android:clickable="true"
             android:focusable="true"
             android:text="Forgot Password?"
@@ -146,7 +146,7 @@
             android:layout_width="379dp"
             android:layout_height="46dp"
             android:layout_below="@id/btnContinue"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="196dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 

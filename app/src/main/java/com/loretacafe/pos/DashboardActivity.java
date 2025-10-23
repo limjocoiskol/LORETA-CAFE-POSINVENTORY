@@ -51,12 +51,12 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-        // Menu button click
+        // Menu button click - NAVIGATE TO MENU ACTIVITY
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Open navigation drawer or menu
-                Toast.makeText(DashboardActivity.this, "Menu clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(DashboardActivity.this, MenuActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -95,8 +95,9 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.nav_menu) {
-                // TODO: Open menu/navigation drawer
-                Toast.makeText(this, "Menu", Toast.LENGTH_SHORT).show();
+                // Navigate to Menu Activity
+                Intent intent = new Intent(DashboardActivity.this, MenuActivity.class);
+                startActivity(intent);
                 return true;
             } else if (itemId == R.id.nav_reports) {
                 // TODO: Navigate to reports screen
