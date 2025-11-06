@@ -104,7 +104,9 @@ public class DashboardActivity extends AppCompatActivity {
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             } else if (itemId == R.id.nav_create_order) {
-                Toast.makeText(this, "Create Order - Coming Soon", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, CreateOrderActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             } else if (itemId == R.id.nav_add_item) {
@@ -120,7 +122,9 @@ public class DashboardActivity extends AppCompatActivity {
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             } else if (itemId == R.id.nav_inventory) {
-                Toast.makeText(this, "Inventory - Coming Soon", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, InventoryActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             } else if (itemId == R.id.nav_sales_report) {
@@ -146,8 +150,9 @@ public class DashboardActivity extends AppCompatActivity {
 
         // Floating action button click
         fabAdd.setOnClickListener(v -> {
-            Toast.makeText(this, "Create New Order", Toast.LENGTH_SHORT).show();
-            // TODO: Navigate to create order screen
+            Intent intent = new Intent(DashboardActivity.this, CreateOrderActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
 
